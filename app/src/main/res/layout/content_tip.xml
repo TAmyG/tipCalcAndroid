@@ -77,7 +77,7 @@
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/txtTip"
-        android:layout_below="@id/inputPercentage"
+        android:layout_below="@id/btnClear"
         android:visibility="gone"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
