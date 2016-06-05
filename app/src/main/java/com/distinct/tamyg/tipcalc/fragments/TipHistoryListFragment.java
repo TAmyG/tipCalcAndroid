@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.distinct.tamyg.tipcalc.R;
 import com.distinct.tamyg.tipcalc.activities.TipDetailActivity;
@@ -17,15 +16,13 @@ import com.distinct.tamyg.tipcalc.adapters.OnItemClickListenner;
 import com.distinct.tamyg.tipcalc.adapters.TipAdapter;
 import com.distinct.tamyg.tipcalc.models.TipRecord;
 
-import java.util.LinkedList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TipHistoryListFragment extends Fragment implements TipHistoryListFragmentListener, OnItemClickListenner{
+public class TipHistoryListFragment extends Fragment implements OnItemClickListenner, TipHistoryListFragmentListener{
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -54,8 +51,9 @@ public class TipHistoryListFragment extends Fragment implements TipHistoryListFr
     }
 
     private void initAdapter() {
-        if(adapter ==  null)
+        if(adapter ==  null){
             adapter = new TipAdapter(getActivity().getApplicationContext(), this);
+        }
     }
 
     @Override

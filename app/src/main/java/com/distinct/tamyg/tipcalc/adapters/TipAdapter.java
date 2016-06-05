@@ -31,20 +31,14 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
 
     public TipAdapter(Context context, OnItemClickListenner onItemClickListenner) {
         this.context = context;
-        this.dataset = new ArrayList<TipRecord>();
-        this.onItemClickListenner = onItemClickListenner;
-    }
-
-    public TipAdapter(Context context, List<TipRecord> dataset, OnItemClickListenner onItemClickListenner) {
-        this.context = context;
-        this.dataset = dataset;
+        this.dataset = new ArrayList<>();
         this.onItemClickListenner = onItemClickListenner;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TipAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_row, parent, false);
+                .inflate(R.layout.item_row, null);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
