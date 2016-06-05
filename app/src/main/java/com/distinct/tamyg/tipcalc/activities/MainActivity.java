@@ -64,10 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 handleClickSubmit();
                 break;
             case R.id.btnIncrease:
+                handleClickIncrease();
                 break;
             case R.id.btnDecrease:
+                handleClickDecrease();
                 break;
             case R.id.btnClear:
+                handleClickClear();
                 break;
         }
     }
@@ -99,7 +102,42 @@ public class MainActivity extends AppCompatActivity {
         intent.setData(Uri.parse(strUrl));
         startActivity(intent);
     }
+    /**
+     * Metodo para ocultar el teclado cuando se requiera
+     */
+    private void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        try{
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
 
+        }catch (NullPointerException npe){
+            Log.e(getLocalClassName(), Log.getStackTraceString(npe));
+        }
+    }
+
+    public int getDefaultTipPercentage() {
+        int tipPercentage = DEFAULT_TIP_PERCENTAGE;
+        String strInputTipPercentage = inputPercentage.getText().toString().trim();
+        Log.e("getDefaultTipPercentage",strInputTipPercentage);
+        if(!strInputTipPercentage.isEmpty())
+            tipPercentage = Integer.parseInt(strInputTipPercentage);
+        else
+            inputPercentage.setText(String.valueOf(inputPercentage));
+
+        return tipPercentage;
+    }
+
+    private void handleTipChange(int tipStateChange) {
+        int tipPercentage = getDefaultTipPercentage();
+        tipPercentage += tipStateChange;
+
+        if(tipPercentage > 0)
+            inputPercentage.setText(String.valueOf(tipPercentage));
+    }
+    /**Funcionalidad para botones----------------------------*/
+    /*********************************************************/
     /**
      * Funcion que maneja el evento click al presionar sobre
      * el btnSubmit
@@ -117,27 +155,30 @@ public class MainActivity extends AppCompatActivity {
             fragmentListener.action(strTip);
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
-            inputPercentage.setText("% "+getDefaultTipPercentage());
+            inputPercentage.setText(String.valueOf(getDefaultTipPercentage()));
         }
     }
 
     /**
-     * Metodo para ocultar el teclado cuando se requiera
+     * Funcion que maneja el evento click al presionar sobre
+     * el btnClear
      */
-    private void hideKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        try{
-            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-
-        }catch (NullPointerException npe){
-            Log.e(getLocalClassName(), Log.getStackTraceString(npe));
-        }
+    private void handleClickClear() {
     }
-
-    public static int getDefaultTipPercentage() {
-        return DEFAULT_TIP_PERCENTAGE;
+    /**
+     * Funcion que maneja el evento click al presionar sobre
+     * el btnIncrease
+     */
+    private void handleClickIncrease() {
+        hideKeyboard();
+        handleTipChange(TIP_STATE_CHANGE);
     }
-
+    /**
+     * Funcion que maneja el evento click al presionar sobre
+     * el btnDecrease
+     */
+    private void handleClickDecrease() {
+        hideKeyboard();
+        handleTipChange(-TIP_STATE_CHANGE);
+    }
 }
