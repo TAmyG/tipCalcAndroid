@@ -1,12 +1,15 @@
 package com.distinct.tamyg.tipcalc.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
      * el btnSubmit
      */
     private void handleClickSubmit(){
+        hideKeyboard();
 
         String strInputTotal = inputBill.getText().toString().trim();
         if(!strInputTotal.isEmpty()){
@@ -114,6 +118,21 @@ public class MainActivity extends AppCompatActivity {
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
             inputPercentage.setText("% "+getDefaultTipPercentage());
+        }
+    }
+
+    /**
+     * Metodo para ocultar el teclado cuando se requiera
+     */
+    private void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        try{
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+        }catch (NullPointerException npe){
+            Log.e(getLocalClassName(), Log.getStackTraceString(npe));
         }
     }
 
