@@ -35,7 +35,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
     @Override
     public TipAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_row, null);
+                .inflate(R.layout.item_row, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
