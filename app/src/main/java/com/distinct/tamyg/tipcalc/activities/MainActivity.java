@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.distinct.tamyg.tipcalc.R;
 import com.distinct.tamyg.tipcalc.TipCalcApp;
@@ -120,11 +121,11 @@ public class MainActivity extends AppCompatActivity {
     public int getDefaultTipPercentage() {
         int tipPercentage = DEFAULT_TIP_PERCENTAGE;
         String strInputTipPercentage = inputPercentage.getText().toString().trim();
-        Log.e("getDefaultTipPercentage",strInputTipPercentage);
-        if(!strInputTipPercentage.isEmpty())
-            tipPercentage = Integer.parseInt(strInputTipPercentage);
+
+        if(strInputTipPercentage.isEmpty())
+            inputPercentage.setText(String.valueOf(tipPercentage));
         else
-            inputPercentage.setText(String.valueOf(inputPercentage));
+            tipPercentage = Integer.parseInt(strInputTipPercentage);
 
         return tipPercentage;
     }
