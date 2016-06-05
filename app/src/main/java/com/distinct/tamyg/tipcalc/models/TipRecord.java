@@ -2,7 +2,6 @@ package com.distinct.tamyg.tipcalc.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 /**
  * Created by tamyg on 4/06/16.

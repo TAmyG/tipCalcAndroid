@@ -13,12 +13,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.distinct.tamyg.tipcalc.R;
 import com.distinct.tamyg.tipcalc.TipCalcApp;
 import com.distinct.tamyg.tipcalc.fragments.TipHistoryListFragment;
 import com.distinct.tamyg.tipcalc.fragments.TipHistoryListFragmentListener;
+import com.distinct.tamyg.tipcalc.models.TipRecord;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,16 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.inputBill)
     EditText inputBill;
-    @Bind(R.id.btnSubmit)
-    Button btnSubmit;
-    @Bind(R.id.btnIncrease)
-    Button btnIncrease;
-    @Bind(R.id.btnDecrease)
-    Button btnDecrease;
     @Bind(R.id.inputPercentage)
     EditText inputPercentage;
-    @Bind(R.id.btnClear)
-    Button btnClear;
     @Bind(R.id.txtTip)
     TextView txtTip;
 
@@ -150,10 +144,15 @@ public class MainActivity extends AppCompatActivity {
         if(!strInputTotal.isEmpty()){
             double total = Double.parseDouble(strInputTotal);
             int tipPercentage = getDefaultTipPercentage();
-            double tip = total * (tipPercentage/100d);
+            TipRecord tipRecord = new TipRecord();
 
-            String strTip = String.format(getString(R.string.global_message_tip), tip);
-            fragmentListener.action(strTip);
+            tipRecord.setBill(total);
+            tipRecord.setTipPercentage(tipPercentage);
+            tipRecord.setTimeStamp(new Date());
+
+            String strTip = String.format(getString(R.string.global_message_tip),
+                                    tipRecord.getTip());
+            fragmentListener.addToList(tipRecord);
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
             inputPercentage.setText(String.valueOf(getDefaultTipPercentage()));
@@ -165,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
      * el btnClear
      */
     private void handleClickClear() {
+        fragmentListener.clearList();
     }
     /**
      * Funcion que maneja el evento click al presionar sobre
