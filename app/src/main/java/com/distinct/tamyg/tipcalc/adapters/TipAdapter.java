@@ -10,8 +10,9 @@ import android.widget.TextView;
 import com.distinct.tamyg.tipcalc.R;
 import com.distinct.tamyg.tipcalc.models.TipRecord;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,13 +21,21 @@ import butterknife.ButterKnife;
  * Created by tamyg on 4/06/16.
  */
 public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
-    Context context;
-    List<TipRecord> dataset;
+    private Context context;
+    private List<TipRecord> dataset;
+    private OnItemClickListenner onItemClickListenner;
 
 
-    public TipAdapter(Context context, List<TipRecord> dataset) {
+    public TipAdapter(Context context, OnItemClickListenner onItemClickListenner) {
+        this.context = context;
+        this.dataset = new ArrayList<TipRecord>();
+        this.onItemClickListenner = onItemClickListenner;
+    }
+
+    public TipAdapter(Context context, List<TipRecord> dataset, OnItemClickListenner onItemClickListenner) {
         this.context = context;
         this.dataset = dataset;
+        this.onItemClickListenner = onItemClickListenner;
     }
 
     @Override
@@ -34,7 +43,8 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_row, parent, false);
 
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
@@ -43,6 +53,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
         String strTip = String.format(context.getString(R.string.global_message_tip),
                                 element.getTip());
         holder.txtContent.setText(strTip);
+        holder.setOnItemClickListenner(element, onItemClickListenner);
     }
 
     @Override
@@ -66,6 +77,15 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void setOnItemClickListenner(final TipRecord element, final OnItemClickListenner onItemClickListenner) {
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    onItemClickListenner.onItemClick(element);
+                }
+            });
         }
     }
 }
