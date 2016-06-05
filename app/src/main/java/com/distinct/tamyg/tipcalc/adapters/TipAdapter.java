@@ -2,6 +2,7 @@ package com.distinct.tamyg.tipcalc.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.distinct.tamyg.tipcalc.R;
 import com.distinct.tamyg.tipcalc.models.TipRecord;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,10 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
         TipRecord element = dataset.get(position);
         String strTip = String.format(context.getString(R.string.global_message_tip),
                                 element.getTip());
+        String strDate = element.getDateFormatted();
+
         holder.txtContent.setText(strTip);
+        holder.txtDate.setText(strDate);
         holder.setOnItemClickListenner(element, onItemClickListenner);
     }
 
@@ -74,6 +80,9 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
     public  static  class ViewHolder extends  RecyclerView.ViewHolder{
         @Bind(R.id.txtContent)
         TextView txtContent;
+        @Bind(R.id.txtDate)
+        TextView txtDate;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
